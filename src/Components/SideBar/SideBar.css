@@ -1,0 +1,41 @@
+.sideBarMainDiv{
+    height: 94vh;
+    width: 20%;
+    background-color: darkslateblue;
+    color: white;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 20px;
+}
+
+.sidebarItems{
+width: 300px;
+height: 55px;
+opacity: .8;
+margin: auto;
+/* margin-bottom: 20px; */
+cursor: pointer;
+border-radius: 10px;
+
+/* padding-top: 2px; */
+}
+.sidebarItems:hover{
+    /* border: 1px solid gray; */
+    background-color: white;
+    color: darkslateblue ;
+
+}
+
+.itemContent{
+    text-align: center;
+    padding-top: 15px;
+    /* margin-top: auto; */
+
+}
+
+.logo{
+    width: 200px;
+    margin-left: 60px;
+    margin-top: 20px;
+    margin-bottom: 50px;
+}

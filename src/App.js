@@ -1,0 +1,20 @@
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import "./App.css";
+import SideBar from "./Components/SideBar/SideBar";
+import BatchesPages from "./Pages/BatchesPage";
+import MainPage from "./Pages/MainPage";
+
+function App() {
+  return (
+    <div style={{ display: "flex" }}>
+      <SideBar />
+      <Routes>
+        <Route path="/" element={<MainPage />}></Route>
+        <Route path="/dashboard" element={<MainPage />}></Route>
+        <Route path="/batchs" element={<BatchesPages />}></Route>
+      </Routes>
+    </div>
+  );
+}
+
+export default App;
