@@ -8,11 +8,13 @@ function App() {
   return (
     <div style={{ display: "flex" }}>
       <SideBar />
-      <Routes>
-        <Route path="/" element={<MainPage />}></Route>
-        <Route path="/dashboard" element={<MainPage />}></Route>
-        <Route path="/batchs" element={<BatchesPages />}></Route>
-      </Routes>
+      <div style={{ width: "75%" }}>
+        <Routes>
+          <Route path="/" element={<MainPage />}></Route>
+          <Route path="/dashboard" element={<MainPage />}></Route>
+          <Route path="/batchs" element={<BatchesPages />}></Route>
+        </Routes>
+      </div>
     </div>
   );
 }
