@@ -1,8 +1,12 @@
 import React from "react";
 import "./BatchsPage.css";
-import Button from "@mui/material/Button";
+import { useNavigate } from "react-router-dom";
+
+import AddBatchModal from "../Components/AddBatchModal";
 
 export default function BatchesPages() {
+  const navigate = useNavigate();
+
   const data = [
     {
       batchName: "Batch 1 (Yoga)",
@@ -11,51 +15,99 @@ export default function BatchesPages() {
       trainerName: "Karuna Ahuja",
     },
     {
-      batchName: "Batch 1 (Yoga)",
-      time: "6am - 7am",
-      no: 8,
+      batchName: "Batch 2 (Yoga)",
+      time: "7am - 8am",
+      no: 10,
       trainerName: "Karuna Ahuja",
     },
   ];
 
-  const colors = ["aquamarine", "rgb(106 255 124)"];
+  const colors = ["#F8999D", "#92ACDD"];
 
   return (
     <div className="batchPage">
-      <h2 className="bHead">Batches</h2>
-      <Button
-        className="addBatch"
-        sx={{ background: "#483D8B" }}
-        variant="contained"
-      >
-        + New Batch
-      </Button>
+      <p className="bHead">Batches</p>
+
+      <AddBatchModal />
 
       <div className="cardsDiv">
         {data.map((d, i) => (
-          <div className="cards" style={{ background: colors[i] }}>
-            <h3 style={{ textAlign: "center" }}> {d.batchName} </h3>
+          <div
+            className="cards"
+            onClick={() =>
+              navigate("/listPerBatch", {
+                state: {
+                  data: {
+                    batchName: d.batchName,
+                    // productName: data.productName,
+                    // price: data.price,
+                    // description: data.description,
+                    // contactNumber: data.contactNumber,
+                  },
+                },
+              })
+            }
+          >
+            <p
+              style={{
+                textAlign: "center",
+                fontSize: "20px",
+                marginTop: "10px",
+              }}
+            >
+              {" "}
+              {d.batchName}{" "}
+            </p>
 
             <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <p style={{ marginLeft: "10px" }}>
-                Timings : <span style={{ fontWeight: "500" }}> {d.time} </span>{" "}
-              </p>
-              <p style={{ marginRight: "10px" }}>
+              <div
+                style={{
+                  // border: "1px solid black",
+                  padding: "5px",
+                  marginLeft: "25px",
+                  borderRadius: "20px ",
+                  background: colors[i],
+                  marginBottom: "10px",
+                }}
+              >
+                <p
+                  style={{
+                    // marginLeft: "10px",
+                    marginTop: "2px",
+                    marginBottom: "2px",
+                    fontWeight: "500",
+                    fontSize: "17px",
+                  }}
+                >
+                  {d.time}{" "}
+                </p>
+              </div>
+
+              <p
+                style={{
+                  marginRight: "20px",
+                  fontSize: "17px",
+                }}
+              >
                 Participants :{" "}
                 <span style={{ fontWeight: "500" }}> {d.no} </span>{" "}
               </p>
             </div>
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <p style={{ marginLeft: "10px" }}>
+            <div>
+              {/* <p style={{ marginLeft: "10px" }}>
                 Trainer :{" "}
                 <span style={{ fontWeight: "500" }}> {d.trainerName} </span>{" "}
-              </p>
+              </p> */}
 
-              <p style={{ marginRight: "10px" }}>
+              <p style={{ marginLeft: "30px" }}>
                 {" "}
                 Date : <span style={{ fontWeight: "500" }}>2 oct 2022</span>
               </p>
             </div>
+
+            <p style={{ textAlign: "center", marginBottom: "0px" }}>
+              By {d.trainerName}
+            </p>
           </div>
         ))}
       </div>
