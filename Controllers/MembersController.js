@@ -6,7 +6,8 @@ module.exports = {
   AddParticipant,
   GetAllParticipants,
   GetAllParticipantsBatchWise,
-  GetUserDetails
+  GetUserDetails,
+UpdateParticipantDetails
 };
 
 async function AddParticipant(req, res) {
@@ -60,5 +61,19 @@ return res.status(200).json(userDetails);
         console.log("Error=>", err);
     return res.status(400).json(err);
     }
+
+}
+
+
+async function UpdateParticipantDetails(req,res){
+const body = req.body;
+
+  try{
+       await membersModel.findOneAndUpdate({_id:body.userId},body);
+       return res.status(200).json("Participant details Updated");
+  }catch(err){
+    console.log("Error=>", err);
+    return res.status(400).json(err);
+  }
 
 }

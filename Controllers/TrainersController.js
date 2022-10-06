@@ -4,7 +4,8 @@ const TrainersModel = require("../Models/TrainerModel");
 module.exports = {
 AddTrainer,
 GetTrainers,
-DeleteTrainer
+DeleteTrainer,
+UpdateTrainerDetails
 }
 
 
@@ -53,4 +54,18 @@ catch(err){
     console.log("Error=>",err);
     return res.status(400).json(err);
 }
+}
+
+
+async function UpdateTrainerDetails(req,res){
+const body = req.body;
+  try{
+    await TrainersModel.findOneAndUpdate({_id:body.id},body);
+    return res.status(200).json("Trainer Details Updated");
+
+  }catch(err){
+    console.log("Error=>",err);
+    return res.status(400).json(err);
+  }
+
 }

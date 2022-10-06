@@ -4,7 +4,8 @@ const batchesModel = require("../Models/BatchesModel");
 module.exports = {
 CreateBatch,
 GetAllBatches,
-DeleteBatch
+DeleteBatch,
+UpdateBatchDetails
 }
 
 
@@ -47,6 +48,21 @@ const BatchId = req.params.batchId;
 try{
      await batchesModel.deleteOne({_id:BatchId});
      return res.status(200).json("Batch Deleted");  
+
+}catch(err){
+    console.log("Error=>",err);
+    return res.status(400).json(err);
+}
+
+}
+
+
+async function UpdateBatchDetails(req,res){
+const id = req.body.id;
+try{
+
+  await batchesModel.findOneAndUpdate({_id:id},req.body);
+  return res.status(200).json("Batch Details Updated");
 
 }catch(err){
     console.log("Error=>",err);
