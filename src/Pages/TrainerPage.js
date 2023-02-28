@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Avatar from "@mui/material/Avatar";
 import AddTrainerModal from "../Components/AddTrainerModal";
+import url from "../config.json";
 
 function stringToColor(string) {
   let hash = 0;
@@ -32,33 +33,21 @@ function stringAvatar(name) {
 }
 
 export default function TrainerPage() {
-  const data = [
-    {
-      name: "Karuna Ahuja",
-      age: 45,
-      batchs: 5,
-      expertise: "Yoga Instructor",
-    },
+  const [data, setData] = useState();
 
-    {
-      name: "Jaanvi Ahuja",
-      age: 22,
-      batchs: 3,
-      expertise: "Mental Health Mentor",
-    },
-    {
-      name: "Pankaj Rohera",
-      age: 50,
-      batchs: 2,
-      expertise: "Health Products Mentor ",
-    },
-    {
-      name: "Mr. Ajay",
-      age: 30,
-      batchs: 2,
-      expertise: "Yoga Instructor",
-    },
-  ];
+  useEffect(() => {
+    try {
+      fetch(`${url.localhost}/GetTrainers`)
+        .then((resp) => resp.json())
+        .then((resp) => {
+          console.log(resp);
+          setData(resp);
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+
   return (
     <div>
       <p
@@ -83,56 +72,60 @@ export default function TrainerPage() {
           marginTop: "50px",
         }}
       >
-        {data.map((d) => (
-          <div
-            style={{
-              // border: "0.5px solid black",
-              width: "250px",
-              height: "190px",
-              background: "#0E6086",
-            }}
-          >
+        {data &&
+          data.map((d) => (
             <div
               style={{
                 // border: "0.5px solid black",
                 width: "250px",
-                height: "150px",
-                background: "white",
+                height: "190px",
+                background: "#0E6086",
               }}
             >
-              <div style={{ display: "flex" }}>
-                <Avatar style={{ margin: "10px" }} {...stringAvatar(d.name)} />
-                <p
-                  style={{
-                    marginTop: "10px",
-                    fontSize: "20px",
-                    fontWeight: "500",
-                  }}
-                >
-                  {d.name}
+              <div
+                style={{
+                  // border: "0.5px solid black",
+                  width: "250px",
+                  height: "150px",
+                  background: "white",
+                }}
+              >
+                <div style={{ display: "flex" }}>
+                  <Avatar
+                    style={{ margin: "10px" }}
+                    {...stringAvatar(d.Name)}
+                  />
+                  <p
+                    style={{
+                      marginTop: "10px",
+                      fontSize: "20px",
+                      fontWeight: "500",
+                    }}
+                  >
+                    {d.Name}
+                  </p>
+                </div>
+                <p style={{ marginLeft: "15px", fontSize: "15px" }}>
+                  Age : {d.Age}
+                </p>
+                <p style={{ marginLeft: "15px", fontSize: "15px" }}>
+                  Joining : {d.JoiningDate}
                 </p>
               </div>
-              <p style={{ marginLeft: "15px", fontSize: "15px" }}>
-                Age : {d.age}
-              </p>
-              <p style={{ marginLeft: "15px", fontSize: "15px" }}>
-                No. Of Batchs : {d.batchs}
+
+              <p
+                style={{
+                  fontSize: "20px",
+                  fontWeight: "500",
+                  color: "white",
+                  // marginLeft: "20px",
+                  textAlign: "center",
+                }}
+              >
+                {d.Expertise}
               </p>
             </div>
-
-            <p
-              style={{
-                fontSize: "20px",
-                fontWeight: "500",
-                color: "white",
-                // marginLeft: "20px",
-                textAlign: "center",
-              }}
-            >
-              {d.expertise}
-            </p>
-          </div>
-        ))}
+          ))}
       </div>
     </div>
   );

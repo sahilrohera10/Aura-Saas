@@ -22,6 +22,44 @@ export default function AddBatchModal() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  const [batchName, setBatchName] = React.useState();
+  const [trainerName, setTrainerName] = React.useState();
+  const [from, setFrom] = React.useState();
+  const [to, setTo] = React.useState();
+  const [date, setDate] = React.useState();
+
+  const addBatch = async () => {
+    try {
+      const body = {
+        BatchName: batchName,
+        From: from,
+        To: to,
+        TrainerName: trainerName,
+        Date: date,
+      };
+      const requestOptions = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      };
+
+      const resp = await fetch(
+        "http://localhost:3004/CreateBatch",
+        requestOptions
+      );
+
+      if (resp.status === 200) {
+        alert("successfully added");
+      }
+      if (resp.status === 300) {
+        alert("batch Already added");
+      }
+    } catch (error) {
+      console.log("error=>", error);
+      alert("error");
+    }
+  };
+
   return (
     <div style={{ marginLeft: "60rem" }}>
       <Button variant="contained" onClick={handleOpen}>
@@ -43,28 +81,48 @@ export default function AddBatchModal() {
               id="outlined-basic"
               label="Batch Name"
               variant="outlined"
+              value={batchName}
+              onChange={(e) => setBatchName(e.target.value)}
             />
             <TextField
               style={{ margin: "10px" }}
               id="outlined-basic"
               label="Trainer Name"
               variant="outlined"
+              value={trainerName}
+              onChange={(e) => setTrainerName(e.target.value)}
             />
             <TextField
               style={{ margin: "10px" }}
               id="outlined-basic"
               label="From .."
               variant="outlined"
+              value={from}
+              onChange={(e) => setFrom(e.target.value)}
             />
             <TextField
               style={{ margin: "10px" }}
               id="outlined-basic"
               label="To .."
               variant="outlined"
+              value={to}
+              onChange={(e) => setTo(e.target.value)}
+            />
+            <TextField
+              style={{ margin: "10px" }}
+              id="outlined-basic"
+              label="Date"
+              variant="outlined"
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
             />
           </Typography>
 
-          <Button style={{ marginLeft: "190px" }} variant="contained">
+          <Button
+            onClick={() => addBatch()}
+            style={{ marginLeft: "190px" }}
+            variant="contained"
+          >
             Add Batch
           </Button>
         </Box>

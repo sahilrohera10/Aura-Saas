@@ -1,79 +1,66 @@
 import { Space, Table, Tag } from "antd";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "antd/dist/antd.css";
 import { useLocation } from "react-router-dom";
 import AddParticipantModal from "../Components/AddParticipantModal";
+import url from "../config.json";
 
 const columns = [
   {
     title: "Name",
-    dataIndex: "name",
+    dataIndex: "Name",
     key: "name",
     render: (text) => <a>{text}</a>,
   },
   {
     title: "Age",
-    dataIndex: "age",
+    dataIndex: "Age",
     key: "age",
   },
   {
     title: "Gender",
-    dataIndex: "gender",
+    dataIndex: "Gender",
     key: "gender",
   },
   {
     title: "Phone No.",
-    dataIndex: "phone",
+    dataIndex: "ContactNo",
     key: "phone",
   },
-  {
-    title: "Joining Date",
-    dataIndex: "date",
-    key: "date",
-  },
+  // {
+  //   title: "Joining Date",
+  //   dataIndex: "date",
+  //   key: "date",
+  // },
   {
     title: "Address",
-    dataIndex: "address",
+    dataIndex: "Address",
     key: "address",
-  },
-];
-const data = [
-  {
-    key: "1",
-    name: "John Brown",
-    age: 32,
-    gender: "Male",
-    phone: 7428727172,
-    date: "5-10-2022",
-    address: "New York No. 1 Lake Park",
-    tags: ["nice", "developer"],
-  },
-  {
-    key: "2",
-    name: "Jim Green",
-    age: 42,
-    gender: "Male",
-    phone: 7428727172,
-    date: "5-10-2022",
-    address: "London No. 1 Lake Park",
-    tags: ["loser"],
-  },
-  {
-    key: "3",
-    name: "Joe Black",
-    age: 32,
-    gender: "Male",
-    phone: 7428727172,
-    date: "5-10-2022",
-    address: "Sidney No. 1 Lake Park",
-    tags: ["cool", "teacher"],
   },
 ];
 
 export default function UserPerBatchPage() {
   const location = useLocation();
-  console.log("in list => ", location.state.data.batchName);
+
   const name = location.state.data.batchName;
+  const batchId = location.state.data.id;
+  console.log("in list => ", name, batchId);
+
+  const [data, setData] = useState();
+
+  useEffect(() => {
+    try {
+      fetch(`${url.localhost}/GetAllParticipantsByBatch/${batchId}`)
+        .then((resp) => resp.json())
+        .then((resp) => {
+          console.log(resp);
+          setData(resp);
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+
   return (
     <div>
       <p
@@ -86,7 +73,7 @@ export default function UserPerBatchPage() {
       >
         {name} Participants
       </p>
-      <AddParticipantModal />
+      <AddParticipantModal id={batchId} />
       <Table
         style={{ marginTop: "50px" }}
         columns={columns}

@@ -17,10 +17,51 @@ const style = {
   p: 4,
 };
 
-export default function AddParticipantModal() {
+export default function AddParticipantModal({ id }) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  const [name, setName] = React.useState();
+  const [age, setAge] = React.useState();
+  const [phn, setPhn] = React.useState();
+  const [address, setAddress] = React.useState();
+  const [gender, setGender] = React.useState();
+
+  const addParticipant = async () => {
+    try {
+      const body = {
+        BatchId: id,
+        Name: name,
+        Age: age,
+        ContactNo: phn,
+        Address: address,
+        Gender: gender,
+      };
+      const requestOptions = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      };
+
+      console.log("body=>", body);
+
+      const resp = await fetch(
+        "http://localhost:3004/AddParticipant",
+        requestOptions
+      );
+
+      if (resp.status === 200) {
+        alert("successfully joined");
+      }
+      if (resp.status === 300) {
+        alert("This participant has already joined this batch");
+      }
+    } catch (error) {
+      console.log("error=>", error);
+      alert("error");
+    }
+  };
 
   return (
     <div style={{ marginLeft: "60rem" }}>
@@ -42,35 +83,49 @@ export default function AddParticipantModal() {
               style={{ margin: "10px" }}
               id="outlined-basic"
               label="Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
               variant="outlined"
             />
             <TextField
               style={{ margin: "10px" }}
               id="outlined-basic"
               label="Age"
+              value={age}
+              onChange={(e) => setAge(e.target.value)}
               variant="outlined"
             />
             <TextField
               style={{ margin: "10px" }}
               id="outlined-basic"
               label="Gender"
+              value={gender}
+              onChange={(e) => setGender(e.target.value)}
               variant="outlined"
             />
             <TextField
               style={{ margin: "10px" }}
               id="outlined-basic"
               label="Phone No."
+              value={phn}
+              onChange={(e) => setPhn(e.target.value)}
               variant="outlined"
             />
             <TextField
               style={{ margin: "10px", width: "470px" }}
               id="outlined-basic"
               label="Address"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
               variant="outlined"
             />
           </Typography>
 
-          <Button style={{ marginLeft: "220px" }} variant="contained">
+          <Button
+            onClick={() => addParticipant()}
+            style={{ marginLeft: "220px" }}
+            variant="contained"
+          >
             Add
           </Button>
         </Box>

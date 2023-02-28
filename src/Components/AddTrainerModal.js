@@ -22,6 +22,48 @@ export default function AddTrainerModal() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  const [name, setName] = React.useState();
+  const [age, setAge] = React.useState();
+  const [gender, setGender] = React.useState();
+  const [expertise, setExpertise] = React.useState();
+  const [address, setAddress] = React.useState();
+  const [joiningDate, setJoiningDate] = React.useState();
+  const [contact, setContact] = React.useState();
+
+  const addTrainer = async () => {
+    try {
+      const body = {
+        Name: name,
+        Age: age,
+        Gender: gender,
+        Expertise: expertise,
+        Address: address,
+        JoiningDate: joiningDate,
+        ContactNo: parseInt(contact),
+      };
+      const requestOptions = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      };
+
+      const resp = await fetch(
+        "http://localhost:3004/AddTrainer",
+        requestOptions
+      );
+
+      if (resp.status === 200) {
+        alert("register success");
+      }
+      if (resp.status === 300) {
+        alert("trainer Already added");
+      }
+    } catch (error) {
+      console.log("error=>", error);
+      alert("error");
+    }
+  };
+
   return (
     <div style={{ marginLeft: "60rem" }}>
       <Button variant="contained" onClick={handleOpen}>
@@ -43,34 +85,64 @@ export default function AddTrainerModal() {
               id="outlined-basic"
               label="Name"
               variant="outlined"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
             />
             <TextField
               style={{ margin: "10px" }}
               id="outlined-basic"
               label="Age"
               variant="outlined"
+              value={age}
+              onChange={(e) => setAge(e.target.value)}
             />
             <TextField
               style={{ margin: "10px" }}
               id="outlined-basic"
               label="Gender"
               variant="outlined"
+              value={gender}
+              onChange={(e) => setGender(e.target.value)}
             />
             <TextField
               style={{ margin: "10px" }}
               id="outlined-basic"
               label="Expertise"
               variant="outlined"
+              value={expertise}
+              onChange={(e) => setExpertise(e.target.value)}
+            />
+            <TextField
+              style={{ margin: "10px" }}
+              id="outlined-basic"
+              label="Contact No."
+              variant="outlined"
+              value={contact}
+              onChange={(e) => setContact(e.target.value)}
+            />
+            <TextField
+              style={{ margin: "10px" }}
+              id="outlined-basic"
+              label="Joining Date"
+              variant="outlined"
+              value={joiningDate}
+              onChange={(e) => setJoiningDate(e.target.value)}
             />
             <TextField
               style={{ margin: "10px", width: "470px" }}
               id="outlined-basic"
               label="Address"
               variant="outlined"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
             />
           </Typography>
 
-          <Button style={{ marginLeft: "190px" }} variant="contained">
+          <Button
+            onClick={() => addTrainer()}
+            style={{ marginLeft: "190px" }}
+            variant="contained"
+          >
             Add Trainer
           </Button>
         </Box>

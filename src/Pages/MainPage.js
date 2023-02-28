@@ -38,6 +38,7 @@ const listData = [
 ];
 
 export default function MainPage() {
+  const name = localStorage.getItem("name");
   return (
     <div>
       <p
@@ -84,7 +85,7 @@ export default function MainPage() {
                   marginBottom: "5px",
                 }}
               >
-                Hello Admin
+                Hello {name} ji
               </p>
               <p style={{ marginTop: "0px" }}>
                 Now you can perform all operations from this panel 🚀

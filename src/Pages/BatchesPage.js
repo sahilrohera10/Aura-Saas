@@ -1,26 +1,27 @@
 import React from "react";
 import "./BatchsPage.css";
 import { useNavigate } from "react-router-dom";
+import url from "../config.json";
 
 import AddBatchModal from "../Components/AddBatchModal";
+import { useState, useEffect } from "react";
 
 export default function BatchesPages() {
   const navigate = useNavigate();
+  const [data, setData] = useState();
 
-  const data = [
-    {
-      batchName: "Batch 1 (Yoga)",
-      time: "6am - 7am",
-      no: 8,
-      trainerName: "Karuna Ahuja",
-    },
-    {
-      batchName: "Batch 2 (Yoga)",
-      time: "7am - 8am",
-      no: 10,
-      trainerName: "Karuna Ahuja",
-    },
-  ];
+  useEffect(() => {
+    try {
+      fetch(`${url.localhost}/GetAllBatches`)
+        .then((resp) => resp.json())
+        .then((resp) => {
+          console.log(resp);
+          setData(resp);
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
 
   const colors = ["#F8999D", "#92ACDD"];
 
@@ -31,85 +32,67 @@ export default function BatchesPages() {
       <AddBatchModal />
 
       <div className="cardsDiv">
-        {data.map((d, i) => (
-          <div
-            className="cards"
-            onClick={() =>
-              navigate("/listPerBatch", {
-                state: {
-                  data: {
-                    batchName: d.batchName,
-                    // productName: data.productName,
-                    // price: data.price,
-                    // description: data.description,
-                    // contactNumber: data.contactNumber,
+        {data &&
+          data.map((d, i) => (
+            <div
+              className="cards"
+              onClick={() =>
+                navigate("/listPerBatch", {
+                  state: {
+                    data: {
+                      batchName: d.BatchName,
+                      id: d._id,
+                    },
                   },
-                },
-              })
-            }
-          >
-            <p
-              style={{
-                textAlign: "center",
-                fontSize: "20px",
-                marginTop: "10px",
-              }}
+                })
+              }
             >
-              {" "}
-              {d.batchName}{" "}
-            </p>
-
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <div
+              <p
                 style={{
-                  // border: "1px solid black",
-                  padding: "5px",
-                  marginLeft: "25px",
-                  borderRadius: "20px ",
-                  background: colors[i],
-                  marginBottom: "10px",
+                  textAlign: "center",
+                  fontSize: "20px",
+                  marginTop: "10px",
                 }}
               >
-                <p
+                {" "}
+                {d.BatchName}{" "}
+              </p>
+
+              <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <div
                   style={{
-                    // marginLeft: "10px",
-                    marginTop: "2px",
-                    marginBottom: "2px",
-                    fontWeight: "500",
-                    fontSize: "17px",
+                    padding: "5px",
+                    marginLeft: "25px",
+                    borderRadius: "20px ",
+                    background: colors[i],
+                    marginBottom: "10px",
                   }}
                 >
-                  {d.time}{" "}
+                  <p
+                    style={{
+                      // marginLeft: "10px",
+                      marginTop: "2px",
+                      marginBottom: "2px",
+                      fontWeight: "500",
+                      fontSize: "17px",
+                    }}
+                  >
+                    {d.From} - {d.To}{" "}
+                  </p>
+                </div>
+              </div>
+              <div>
+                <p style={{ marginLeft: "30px" }}>
+                  {" "}
+                  Date : <span style={{ fontWeight: "500" }}>{d.Date}</span>
                 </p>
               </div>
 
-              <p
-                style={{
-                  marginRight: "20px",
-                  fontSize: "17px",
-                }}
-              >
-                Participants :{" "}
-                <span style={{ fontWeight: "500" }}> {d.no} </span>{" "}
+              <p style={{ textAlign: "center", marginBottom: "0px" }}>
+                By {d.TrainerName}
               </p>
             </div>
-            <div>
-              {/* <p style={{ marginLeft: "10px" }}>
-                Trainer :{" "}
-                <span style={{ fontWeight: "500" }}> {d.trainerName} </span>{" "}
-              </p> */}
-
-              <p style={{ marginLeft: "30px" }}>
-                {" "}
-                Date : <span style={{ fontWeight: "500" }}>2 oct 2022</span>
-              </p>
-            </div>
-
-            <p style={{ textAlign: "center", marginBottom: "0px" }}>
-              By {d.trainerName}
-            </p>
-          </div>
-        ))}
+          ))}
       </div>
     </div>
   );

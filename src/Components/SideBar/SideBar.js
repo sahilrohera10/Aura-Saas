@@ -1,8 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "./SideBar.css";
+import { useNavigate } from "react-router-dom";
 
 export default function SideBar() {
+  const navigate = useNavigate();
+
   const data = [
     {
       title: "Dashboard",
@@ -21,10 +24,16 @@ export default function SideBar() {
       link: "/trainer",
     },
     {
-      title: "Workshops",
-      link: "/workshop",
+      title: "Give Software Access",
+      link: "/access",
     },
   ];
+
+  const logout = () => {
+    localStorage.clear();
+    navigate("/");
+    window.location.reload();
+  };
 
   return (
     <div className="sideBarMainDiv">
@@ -36,6 +45,13 @@ export default function SideBar() {
           </div>
         </Link>
       ))}
+
+      <button
+        style={{ marginTop: "200px", marginLeft: "100px" }}
+        onClick={() => logout()}
+      >
+        Logout
+      </button>
     </div>
   );
 }
