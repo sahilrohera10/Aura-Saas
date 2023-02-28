@@ -4,6 +4,10 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import TextField from "@mui/material/TextField";
+import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
+import dayjs from "dayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 const style = {
   position: "absolute",
@@ -37,6 +41,7 @@ export default function AddParticipantModal({ id }) {
         ContactNo: phn,
         Address: address,
         Gender: gender,
+        JoiningDate: date,
       };
       const requestOptions = {
         method: "POST",
@@ -61,6 +66,11 @@ export default function AddParticipantModal({ id }) {
       console.log("error=>", error);
       alert("error");
     }
+  };
+  const [date, setDate] = React.useState(dayjs(new Date().toJSON()));
+
+  const handleChange = (newValue) => {
+    setDate(newValue);
   };
 
   return (
@@ -111,8 +121,17 @@ export default function AddParticipantModal({ id }) {
               onChange={(e) => setPhn(e.target.value)}
               variant="outlined"
             />
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DesktopDatePicker
+                label="Joining Date "
+                inputFormat="MM/DD/YYYY"
+                value={date}
+                onChange={handleChange}
+                renderInput={(params) => <TextField {...params} />}
+              />
+            </LocalizationProvider>
             <TextField
-              style={{ margin: "10px", width: "470px" }}
+              style={{ margin: "10px" }}
               id="outlined-basic"
               label="Address"
               value={address}

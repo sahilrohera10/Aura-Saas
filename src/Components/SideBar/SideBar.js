@@ -24,6 +24,10 @@ export default function SideBar() {
       link: "/trainer",
     },
     {
+      title: "Date Wise Joinings",
+      link: "/date",
+    },
+    {
       title: "Give Software Access",
       link: "/access",
     },

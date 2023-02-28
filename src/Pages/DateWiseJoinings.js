@@ -1,7 +1,10 @@
 import { Space, Table, Tag } from "antd";
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "antd/dist/antd.css";
+import { useLocation } from "react-router-dom";
+import AddParticipantModal from "../Components/AddParticipantModal";
 import url from "../config.json";
+
 const columns = [
   {
     title: "Name",
@@ -36,12 +39,18 @@ const columns = [
   },
 ];
 
-export default function ParticipantsList() {
+export default function DateWiseJoinings() {
+  const location = useLocation();
+
+  const from = location.state.data.from;
+  const to = location.state.data.to;
+  console.log("in list => ", from, to);
+
   const [data, setData] = useState();
 
   useEffect(() => {
     try {
-      fetch(`${url.localhost}/GetAllParticipants`)
+      fetch(`${url.localhost}/joiningsDateWise/${from}/${to}`)
         .then((resp) => resp.json())
         .then((resp) => {
           console.log(resp);
@@ -51,6 +60,7 @@ export default function ParticipantsList() {
       console.log(error);
     }
   }, []);
+
   return (
     <div>
       <p
@@ -59,13 +69,13 @@ export default function ParticipantsList() {
           fontWeight: "600",
           marginLeft: "20px",
           marginTop: "20px",
-          textAlign: "center",
         }}
       >
-        All Participants
+        {from} - {to} Participants
       </p>
+      {/* <AddParticipantModal id={batchId} /> */}
       <Table
-        style={{ marginTop: "50px", marginLeft: "40px" }}
+        style={{ marginTop: "50px" }}
         columns={columns}
         dataSource={data}
       />

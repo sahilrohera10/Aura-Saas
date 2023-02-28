@@ -3,82 +3,87 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-import TextField from "@mui/material/TextField";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import dayjs from "dayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import TextField from "@mui/material/TextField";
+import { MdModeEdit } from "react-icons/md";
 
 const style = {
   position: "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 570,
+  width: 600,
   bgcolor: "background.paper",
   border: "2px solid #000",
   boxShadow: 24,
   p: 4,
 };
 
-export default function AddTrainerModal() {
+export default function EditTrainer({ data }) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const [name, setName] = React.useState();
-  const [age, setAge] = React.useState();
-  const [gender, setGender] = React.useState();
-  const [expertise, setExpertise] = React.useState();
-  const [address, setAddress] = React.useState();
-  // const [joiningDate, setJoiningDate] = React.useState();
-  const [contact, setContact] = React.useState();
-  const [date, setDate] = React.useState(dayjs(new Date().toJSON()));
-
+  const [name, setName] = React.useState(data.Name);
+  const [age, setAge] = React.useState(data.Age);
+  const [date, setDate] = React.useState(data.JoiningDate.split("T")[0]);
+  const [gender, setGender] = React.useState(data.Gender);
+  const [expertise, setExpertise] = React.useState(data.Expertise);
+  const [address, setAddress] = React.useState(data.Address);
+  const [contact, setContact] = React.useState(data.ContactNo);
   const handleChange = (newValue) => {
     setDate(newValue);
   };
 
-  const addTrainer = async () => {
+  const handleEdit = async () => {
+    const body = {
+      Name: name,
+      Age: age,
+      JoiningDate: date,
+      Gender: gender,
+      Expertise: expertise,
+      ContactNo: contact,
+      id: data._id,
+    };
+
     try {
-      const body = {
-        Name: name,
-        Age: age,
-        Gender: gender,
-        Expertise: expertise,
-        Address: address,
-        // JoiningDate: joiningDate,
-        ContactNo: parseInt(contact),
-        JoiningDate: date.split("T")[0],
-      };
       const requestOptions = {
-        method: "POST",
+        method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       };
 
       console.log("body=>", body);
       const resp = await fetch(
-        "http://localhost:3004/AddTrainer",
+        "http://localhost:3004/UpdateTrainerDetails",
         requestOptions
       );
 
       if (resp.status === 200) {
-        alert("register success");
+        alert("updated");
       }
-      if (resp.status === 300) {
-        alert("trainer Already added");
-      }
-    } catch (error) {
-      console.log("error=>", error);
-      alert("error");
-    }
+    } catch (error) {}
   };
 
   return (
-    <div style={{ marginLeft: "60rem" }}>
-      <Button variant="contained" onClick={handleOpen}>
-        + New Trainer
+    <div>
+      <Button
+        onClick={handleOpen}
+        style={{ marginLeft: "230px", position: "absolute" }}
+      >
+        {" "}
+        <MdModeEdit
+          size={20}
+          style={{
+            position: "absolute",
+            right: "55",
+            top: "10",
+            cursor: "pointer",
+          }}
+        />
       </Button>
       <Modal
         open={open}
@@ -88,7 +93,7 @@ export default function AddTrainerModal() {
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Add New Trainer
+            Edit Trainer
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             <TextField
@@ -131,14 +136,6 @@ export default function AddTrainerModal() {
               value={contact}
               onChange={(e) => setContact(e.target.value)}
             />
-            {/* <TextField
-              style={{ margin: "10px" }}
-              id="outlined-basic"
-              label="Joining Date"
-              variant="outlined"
-              value={joiningDate}
-              onChange={(e) => setJoiningDate(e.target.value)}
-            /> */}
 
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DesktopDatePicker
@@ -161,11 +158,11 @@ export default function AddTrainerModal() {
           </Typography>
 
           <Button
-            onClick={() => addTrainer()}
+            onClick={() => handleEdit()}
             style={{ marginLeft: "190px" }}
             variant="contained"
           >
-            Add Trainer
+            Submit
           </Button>
         </Box>
       </Modal>
