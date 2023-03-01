@@ -13,6 +13,8 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import TextField from "@mui/material/TextField";
 import EditTrainer from "../Components/EditTrainer";
+import { FiRefreshCw } from "react-icons/fi";
+import Tooltip from "@mui/material/Tooltip";
 
 function stringToColor(string) {
   let hash = 0;
@@ -60,17 +62,6 @@ export default function TrainerPage() {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  // const [name, setName] = useState();
-  // const [age, setAge] = useState();
-  // const [date, setDate] = React.useState(dayjs(new Date().toJSON()));
-  // const [gender, setGender] = React.useState();
-  // const [expertise, setExpertise] = React.useState();
-  // const [address, setAddress] = React.useState();
-  // const [contact, setContact] = React.useState();
-
-  // const handleChange = (newValue) => {
-  //   setDate(newValue);
-  // };
 
   useEffect(() => {
     try {
@@ -84,6 +75,19 @@ export default function TrainerPage() {
       console.log(error);
     }
   }, []);
+
+  const refresh = async () => {
+    try {
+      fetch(`${url.localhost}/GetTrainers`)
+        .then((resp) => resp.json())
+        .then((resp) => {
+          console.log(resp);
+          setData(resp);
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleDelete = async (id) => {
     try {
@@ -132,6 +136,19 @@ export default function TrainerPage() {
       </Modal>
 
       <div>
+        <Tooltip title="Refresh">
+          <div
+            onClick={() => refresh()}
+            style={{
+              position: "absolute",
+              left: "80%",
+              top: "13%",
+              cursor: "pointer",
+            }}
+          >
+            <FiRefreshCw size={20} />
+          </div>
+        </Tooltip>
         <p
           style={{
             fontSize: "30px",

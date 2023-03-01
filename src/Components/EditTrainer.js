@@ -9,6 +9,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import TextField from "@mui/material/TextField";
 import { MdModeEdit } from "react-icons/md";
+import url from "../config.json";
 
 const style = {
   position: "absolute",
@@ -58,7 +59,7 @@ export default function EditTrainer({ data }) {
 
       console.log("body=>", body);
       const resp = await fetch(
-        "http://localhost:3004/UpdateTrainerDetails",
+        `${url.localhost}/UpdateTrainerDetails`,
         requestOptions
       );
 

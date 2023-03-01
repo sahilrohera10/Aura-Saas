@@ -4,6 +4,11 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import TextField from "@mui/material/TextField";
+import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
+import dayjs from "dayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import url from "../config.json";
 
 const style = {
   position: "absolute",
@@ -26,7 +31,10 @@ export default function AddBatchModal() {
   const [trainerName, setTrainerName] = React.useState();
   const [from, setFrom] = React.useState();
   const [to, setTo] = React.useState();
-  const [date, setDate] = React.useState();
+  const [date, setDate] = React.useState(dayjs(new Date().toJSON()));
+  const handleChange = (newValue) => {
+    setDate(newValue);
+  };
 
   const addBatch = async () => {
     try {
@@ -43,10 +51,7 @@ export default function AddBatchModal() {
         body: JSON.stringify(body),
       };
 
-      const resp = await fetch(
-        "http://localhost:3004/CreateBatch",
-        requestOptions
-      );
+      const resp = await fetch(`${url.localhost}/CreateBatch`, requestOptions);
 
       if (resp.status === 200) {
         alert("successfully added");
@@ -108,14 +113,23 @@ export default function AddBatchModal() {
               value={to}
               onChange={(e) => setTo(e.target.value)}
             />
-            <TextField
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DesktopDatePicker
+                label="Starting Date "
+                inputFormat="MM/DD/YYYY"
+                value={date}
+                onChange={handleChange}
+                renderInput={(params) => <TextField {...params} />}
+              />
+            </LocalizationProvider>
+            {/* <TextField
               style={{ margin: "10px" }}
               id="outlined-basic"
               label="Date"
               variant="outlined"
               value={date}
               onChange={(e) => setDate(e.target.value)}
-            />
+            /> */}
           </Typography>
 
           <Button

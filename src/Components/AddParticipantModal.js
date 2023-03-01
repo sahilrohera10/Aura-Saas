@@ -8,6 +8,7 @@ import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import dayjs from "dayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import url from "../config.json";
 
 const style = {
   position: "absolute",
@@ -52,7 +53,7 @@ export default function AddParticipantModal({ id }) {
       console.log("body=>", body);
 
       const resp = await fetch(
-        "http://localhost:3004/AddParticipant",
+        `${url.localhost}/AddParticipant`,
         requestOptions
       );
 

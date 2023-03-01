@@ -3,11 +3,12 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-import TextField from "@mui/material/TextField";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import dayjs from "dayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import TextField from "@mui/material/TextField";
+import { MdModeEdit } from "react-icons/md";
 import url from "../config.json";
 
 const style = {
@@ -15,68 +16,78 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 570,
+  width: 600,
   bgcolor: "background.paper",
   border: "2px solid #000",
   boxShadow: 24,
   p: 4,
 };
 
-export default function AddTrainerModal() {
+export default function EditBatch({ data }) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const [name, setName] = React.useState();
-  const [age, setAge] = React.useState();
-  const [gender, setGender] = React.useState();
-  const [expertise, setExpertise] = React.useState();
-  const [address, setAddress] = React.useState();
-  // const [joiningDate, setJoiningDate] = React.useState();
-  const [contact, setContact] = React.useState();
-  const [date, setDate] = React.useState(dayjs(new Date().toJSON()));
+  const [batchName, setBatchName] = React.useState(data.BatchName);
+  const [from, setFrom] = React.useState(data.From);
+  const [date, setDate] = React.useState(data.Date.split("T")[0]);
+  const [to, setTo] = React.useState(data.To);
+  const [tName, setTName] = React.useState(data.TrainerName);
 
   const handleChange = (newValue) => {
     setDate(newValue);
   };
 
-  const addTrainer = async () => {
+  const handleEdit = async () => {
+    const body = {
+      BatchName: batchName,
+      From: from,
+      To: to,
+      Date: date,
+      TrainerName: tName,
+      id: data._id,
+    };
+
     try {
-      const body = {
-        Name: name,
-        Age: age,
-        Gender: gender,
-        Expertise: expertise,
-        Address: address,
-        // JoiningDate: joiningDate,
-        ContactNo: parseInt(contact),
-        JoiningDate: date.split("T")[0],
-      };
       const requestOptions = {
-        method: "POST",
+        method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       };
 
       console.log("body=>", body);
-      const resp = await fetch(`${url.localhost}/AddTrainer`, requestOptions);
+      const resp = await fetch(
+        `${url.localhost}/UpdateBatchDetails`,
+        requestOptions
+      );
 
       if (resp.status === 200) {
-        alert("register success");
+        alert("updated");
       }
-      if (resp.status === 300) {
-        alert("trainer Already added");
-      }
-    } catch (error) {
-      console.log("error=>", error);
-      alert("error");
-    }
+    } catch (error) {}
   };
 
   return (
-    <div style={{ marginLeft: "60rem" }}>
-      <Button variant="contained" onClick={handleOpen}>
-        + New Trainer
+    <div>
+      <Button
+        onClick={handleOpen}
+        style={{
+          position: "absolute",
+          marginTop: "-55px",
+          marginLeft: "280px",
+        }}
+      >
+        {" "}
+        <MdModeEdit
+          color="white"
+          size={20}
+          style={{
+            position: "absolute",
+            right: "55",
+            top: "10",
+            cursor: "pointer",
+          }}
+        />
       </Button>
       <Modal
         open={open}
@@ -86,57 +97,41 @@ export default function AddTrainerModal() {
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Add New Trainer
+            Edit Trainer
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             <TextField
               style={{ margin: "10px" }}
               id="outlined-basic"
-              label="Name"
+              label="Batch Name"
               variant="outlined"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              value={batchName}
+              onChange={(e) => setBatchName(e.target.value)}
             />
             <TextField
               style={{ margin: "10px" }}
               id="outlined-basic"
-              label="Age"
+              label="From time"
               variant="outlined"
-              value={age}
-              onChange={(e) => setAge(e.target.value)}
+              value={from}
+              onChange={(e) => setFrom(e.target.value)}
             />
             <TextField
               style={{ margin: "10px" }}
               id="outlined-basic"
-              label="Gender"
+              label="To time"
               variant="outlined"
-              value={gender}
-              onChange={(e) => setGender(e.target.value)}
+              value={to}
+              onChange={(e) => setTo(e.target.value)}
             />
             <TextField
               style={{ margin: "10px" }}
               id="outlined-basic"
-              label="Expertise"
+              label="Trainer Name"
               variant="outlined"
-              value={expertise}
-              onChange={(e) => setExpertise(e.target.value)}
+              value={tName}
+              onChange={(e) => setTName(e.target.value)}
             />
-            <TextField
-              style={{ margin: "10px" }}
-              id="outlined-basic"
-              label="Contact No."
-              variant="outlined"
-              value={contact}
-              onChange={(e) => setContact(e.target.value)}
-            />
-            {/* <TextField
-              style={{ margin: "10px" }}
-              id="outlined-basic"
-              label="Joining Date"
-              variant="outlined"
-              value={joiningDate}
-              onChange={(e) => setJoiningDate(e.target.value)}
-            /> */}
 
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DesktopDatePicker
@@ -147,23 +142,14 @@ export default function AddTrainerModal() {
                 renderInput={(params) => <TextField {...params} />}
               />
             </LocalizationProvider>
-
-            <TextField
-              style={{ margin: "10px", width: "470px" }}
-              id="outlined-basic"
-              label="Address"
-              variant="outlined"
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
-            />
           </Typography>
 
           <Button
-            onClick={() => addTrainer()}
+            onClick={() => handleEdit()}
             style={{ marginLeft: "190px" }}
             variant="contained"
           >
-            Add Trainer
+            Submit
           </Button>
         </Box>
       </Modal>
