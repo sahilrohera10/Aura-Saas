@@ -9,6 +9,7 @@ module.exports = {
 
 async function CreateBatch(req, res) {
   try {
+    console.log("body=>", req.body);
     const ExistingBatch = await batchesModel.findOne({
       BatchName: req.body.BatchName,
     });

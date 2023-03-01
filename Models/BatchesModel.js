@@ -15,7 +15,7 @@ const batchesSchema = new mongoose.Schema({
     type: String,
   },
   Date: {
-    type: String,
+    type: Date,
   },
 });
 
