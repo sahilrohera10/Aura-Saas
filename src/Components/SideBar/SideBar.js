@@ -33,7 +33,8 @@ export default function SideBar() {
     },
   ];
 
-  const logout = () => {
+  const logout = (e) => {
+    e.preventDefault();
     localStorage.clear();
     navigate("/");
     window.location.reload();
@@ -52,7 +53,7 @@ export default function SideBar() {
 
       <button
         style={{ marginTop: "200px", marginLeft: "100px" }}
-        onClick={() => logout()}
+        onClick={(e) => logout(e)}
       >
         Logout
       </button>
