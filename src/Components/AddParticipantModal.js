@@ -75,7 +75,7 @@ export default function AddParticipantModal({ id }) {
   };
 
   return (
-    <div style={{ marginLeft: "60rem" }}>
+    <div style={{ position: "absolute", right: "3%", top: "13%" }}>
       <Button variant="contained" onClick={handleOpen}>
         + New Participant
       </Button>

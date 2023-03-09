@@ -226,7 +226,7 @@ export default function MainPage() {
           </div>
           {/* <Graphs /> */}
         </div>
-        <div
+        {/* <div
           style={{
             width: "300px",
             height: "auto",
@@ -296,7 +296,7 @@ export default function MainPage() {
           >
             View All
           </Button>
-        </div>
+        </div> */}
       </div>
     </div>
   );

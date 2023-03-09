@@ -19,7 +19,7 @@ function App() {
       ) : (
         <div style={{ display: "flex" }}>
           <SideBar />
-          <div style={{ width: "75%" }}>
+          <div style={{ width: "70%" }}>
             <Routes>
               <Route path="/" element={<MainPage />}></Route>
               <Route path="/dashboard" element={<MainPage />}></Route>

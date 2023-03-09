@@ -288,7 +288,7 @@ export default function UserPerBatchPage() {
         </p>
         <AddParticipantModal id={batchId} />
         <Table
-          style={{ marginTop: "50px" }}
+          style={{ marginTop: "100px" }}
           columns={columns}
           dataSource={data}
           rowKey="_id"

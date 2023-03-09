@@ -74,7 +74,7 @@ export default function AddTrainerModal() {
   };
 
   return (
-    <div style={{ marginLeft: "60rem" }}>
+    <div style={{ position: "absolute", right: "3%", top: "12%" }}>
       <Button variant="contained" onClick={handleOpen}>
         + New Trainer
       </Button>

@@ -52,7 +52,7 @@ export default function SideBar() {
       ))}
 
       <button
-        style={{ marginTop: "200px", marginLeft: "100px" }}
+        style={{ position: "absolute", left: "40%", bottom: "5%" }}
         onClick={(e) => logout(e)}
       >
         Logout

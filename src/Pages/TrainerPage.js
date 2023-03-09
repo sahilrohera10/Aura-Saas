@@ -168,7 +168,7 @@ export default function TrainerPage() {
             display: "flex",
             justifyContent: "space-evenly",
             flexWrap: "wrap",
-            marginTop: "50px",
+            marginTop: "100px",
           }}
         >
           {data &&

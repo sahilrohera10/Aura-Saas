@@ -48,8 +48,8 @@ export default function DateWise() {
           <div
             style={{
               border: "2px solid black",
-              width: "300px",
-              height: "150px",
+              width: "220px",
+              height: "130px",
               cursor: "pointer",
               borderRadius: "20px",
             }}
