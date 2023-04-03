@@ -133,7 +133,7 @@ export default function BatchesPages() {
                       padding: "5px",
                       marginLeft: "25px",
                       borderRadius: "20px ",
-                      background: colors[i],
+                      background: colors[i % 2],
                       marginBottom: "10px",
                     }}
                   >

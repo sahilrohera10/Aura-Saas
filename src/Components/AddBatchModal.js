@@ -66,7 +66,7 @@ export default function AddBatchModal() {
   };
 
   return (
-    <div style={{ position: "absolute", right: "3%", top: "19%" }}>
+    <div style={{ position: "absolute", right: "3%", top: "5%" }}>
       <Button variant="contained" onClick={handleOpen}>
         + New Batch
       </Button>

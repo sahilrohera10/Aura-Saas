@@ -6,6 +6,9 @@
 }
 .batchPage{
     position: relative;
+    width: 100%;
+    
+
 }
 .addBatch{
     position: absolute;
@@ -30,11 +33,13 @@
     background-color: #483D8B;
     border-radius: 20px;
     position: relative;
+    margin: 1px;
 
 }
 
 .cardsDiv{
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-evenly;
     margin-top: 100px;
 }

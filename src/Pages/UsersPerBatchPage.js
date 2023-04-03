@@ -38,7 +38,7 @@ export default function UserPerBatchPage() {
   const [address, setAddress] = React.useState();
   const [gender, setGender] = React.useState();
 
-  const [date, setDate] = React.useState(dayjs(new Date().toJSON()));
+  const [date, setDate] = React.useState();
 
   const handleChange = (newValue) => {
     setDate(newValue);
@@ -76,12 +76,12 @@ export default function UserPerBatchPage() {
   const handleEdit = async () => {
     const body = {
       userId: editdata._id,
-      Name: pname,
-      Age: age,
-      ContactNo: phn,
-      Address: address,
-      Gender: gender,
-      Date: date,
+      Name: pname ? pname : editdata.Name,
+      Age: age ? age : editdata.Age,
+      ContactNo: phn ? parseInt(phn) : editdata.ContactNo,
+      Address: address ? address : editdata.Address,
+      Gender: gender ? gender : editdata.Gender,
+      Date: date ? parseInt(date) : parseInt(editdata.JoiningDate),
     };
 
     try {

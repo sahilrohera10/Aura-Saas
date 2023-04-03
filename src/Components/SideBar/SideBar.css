@@ -5,7 +5,8 @@
     padding: 10px;
     margin: 10px;
     border-radius: 20px;
-    position: relative;
+    position: sticky;
+    top: 0;
 }
 
 .sidebarItems{
